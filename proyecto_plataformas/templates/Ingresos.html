@@ -37,29 +37,75 @@
                 <a class="nav-link" href="/Ingresos">Ingresos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Gastos">Gastos</a>
+                <a class="nav-link" href="/Gastos">Gastos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Documentos">Documentos</a>
+                <a class="nav-link" href="/Documentos">Documentos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Configuración">Configuración</a>
+                <a class="nav-link" href="/Configuración">Configuración</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Salir">Salir</a>
+                <a class="nav-link" href="/Salir">Salir</a>
                 </li>
             </ul>
         </div>
     </nav>
 
+    <br>
+    <table border="2" width="90%" align="center">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+        <tbody class="tIngresos">
+        </tbody>
+    </table>
+
+    <br>
+
     <div class="form-row">
             <div class="ingresos">
-                <div class="ing"></div>
-                <form action="/nuevo_ingreso" method="post" id="newIng">
-                    <textarea name="ingreso" disabled=""></textarea>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">Añadir un nuevo campo</button>
+                <form action="/ingreso" method="post" id="newIng">
+                    <div class="ing"></div>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#ings">
+                      Añadir un nuevo campo
+                    </button>
                 </form>
             </div>
+    </div>
+
+    <div class="logs"></div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="ings">
+
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nuevo Ingreso</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form action="/ingreso" method="POST">
+          <div class="modal-body">
+            <div class="name">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="inputIngreso" placeholder="Ingrese el nombre">
+            </div>
+            <div class="cant">
+                <label>Cantidad</label>
+                <input type="number" class="form-control" name="cantidad" placeholder="Ingrese la cantidad">
+            </div>
+          </div>
+          <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+          </form>
+      </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

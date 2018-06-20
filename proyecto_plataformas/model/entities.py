@@ -26,5 +26,20 @@ class Message(connector.Manager.Base):
 class Ingresos(connector.Manager.Base):
     __tablename__ = 'ingresos'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(30))
+    cant=Column(Integer) #Cambiar por decimal
+
+class Gastos(connector.Manager.Base):
+    __tablename__ = 'gastos'
+    id = Column(Integer, primary_key=True, autoincrement=True)
     nombre=Column(String(30))
     cant=Column(Integer) #Cambiar por decimal
+
+class ahorros(connector.Manager.Base):
+    __tablename__ = 'ahorros'
+    id = Column(Integer,Sequence('message_id_seq'), primary_key=True, autoincrement=True)
+    user_from_id = Column(Integer, ForeignKey('users.id'))
+    nombre=Column(String(30))
+    cant=Column(Integer)
+
+    user_from = relationship(User, foreign_keys=[user_from_id])

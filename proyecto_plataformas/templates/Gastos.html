@@ -4,7 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
     <title>Hello</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery-3.1.0.min.js"%3E%3C/script%3E'))</script>
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.spa.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.common.css" />
+    <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.light.css" />
+    <script src="https://cdn3.devexpress.com/jslib/18.1.3/js/dx.all.js"></script>
+    <script src="https://unpkg.com/devextreme-aspnet-data@1.4.5"></script>
+    <script src="grid.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
     <header>
@@ -37,35 +53,74 @@
                 <a class="nav-link" href="/Ingresos">Ingresos</a>
                 </li>
                 <li class="nav-item active">
-                <a class="nav-link" href="Gastos">Gastos</a>
+                <a class="nav-link" href="/Gastos">Gastos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Documentos">Documentos</a>
+                <a class="nav-link" href="/Documentos">Documentos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Configuración">Configuración</a>
+                <a class="nav-link" href="/Configuración">Configuración</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Salir">Salir</a>
+                <a class="nav-link" href="/Salir">Salir</a>
                 </li>
             </ul>
         </div>
     </nav>
 
+    <br>
+    <table border="2" width="90%" align="center">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+        <tbody class="tGastos">
+
+        </tbody>
+    </table>
+
+    <br>
+
     <div class="form-row">
             <div class="gastos">
-                <div class="gast"></div>
-                <form action="/nuevo_gasto" method="post" id="newGast">
-                    <textarea name="gasto" disabled=""></textarea>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">Añadir un nuevo campo</button>
+                <form action="/gasto" method="post" id="newgst">
+                    <div class="ing"></div>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#gst">
+                      Añadir un nuevo campo
+                    </button>
                 </form>
             </div>
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog" id="gst">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nuevo Gasto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form action="/gasto" method="POST">
+          <div class="modal-body">
+            <div class="name">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="inputGasto" placeholder="Ingrese el nombre">
+            </div>
+            <div class="cant">
+                <label>Cantidad</label>
+                <input type="number" class="form-control" name="cantidad" placeholder="Ingrese la cantidad">
+            </div>
+          </div>
+          <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+          </form>
+      </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="{{url_for('static',filename='gastos.js')}}"></script>
+
 </body>
 </html>

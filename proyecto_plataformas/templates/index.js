@@ -1,42 +1,42 @@
 $(function(){
-    var chart = $("#chart").dxPieChart({
+    var url = "http://127.0.0.1:5000/prueba";
+    $("#pie").dxPieChart({
         type: "doughnut",
         palette: "Soft Pastel",
         dataSource: dataSource,
         title: "The Population of Continents and Regions",
         tooltip: {
-            enabled: false,
+            enabled: true,
             format: "millions",
             customizeTooltip: function (arg) {
+                var percentText = Globalize.formatNumber(arg.percent, {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
                 return {
-                    text: arg.argumentText + "<br/>" + arg.valueText
+                    text: arg.valueText + " - " + percentText
                 };
             }
         },
-        size: {
-            height:350
-        },
-        onPointClick: function(e) {
-            var point = e.target;
-            point.showTooltip();
-            region.option("value", point.argument);
-        },
         legend: {
-            visible: false
+            horizontalAlignment: "right",
+            verticalAlignment: "top",
+            margin: 0
+        },
+        "export": {
+            enabled: true
         },
         series: [{
-            argumentField: "region"
+            argumentField: "region",
+            label: {
+                visible: true,
+                format: "millions",
+                connector: {
+                    visible: true
+                }
+            }
         }]
-    }).dxPieChart("instance");
-
-    var region = $("#selectbox").dxSelectBox({
-        width: 250,
-        dataSource: dataSource,
-        displayExpr: "region",
-        valueExpr: "region",
-        placeholder: "Choose region",
-        onValueChanged: function(data) {
-            chart.getAllSeries()[0].getPointsByArg(data.value)[0].showTooltip();
-        }
-    }).dxSelectBox("instance");
+    });
 });
