@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash, url_for, redirect, abort
+from flask import Flask, g, render_template, flash, url_for, redirect, request
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 
@@ -103,8 +103,15 @@ def gasto():
 
 
 @app.route('/documento')
-def documentos():
-    return render_template('Documentos.html')
+def documento():
+    return render_template('documento.html')
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['inputFile']
+
+    return file.filename
 
 
 @app.route('/')
