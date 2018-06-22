@@ -49,6 +49,12 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
 
+
 class IngresoForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    content = TextAreaField('Ingrese sus ingresos', validators=[DataRequired()])
+    name = StringField('Nombre', validators=[DataRequired()])
+    content = DecimalField('Ingrese un ingreso', validators=[DataRequired()])
+
+
+class GastoForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired()])
+    content = DecimalField('Ingrese un gasto', validators=[DataRequired()])

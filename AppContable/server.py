@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash, url_for, redirect
+from flask import Flask, g, render_template, flash, url_for, redirect, abort
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 
@@ -84,15 +84,22 @@ def ingreso():
     if form.validate_on_submit():
         models.Ingreso.create(user=g.user._get_current_object(),
                               name=form.name.data.strip(),
-                              content=form.content.data.strip())
+                              content=form.content.data)
         flash('Ingreso añadido', 'success')
         return redirect(url_for('home'))
     return render_template('ingreso.html', form=form)
 
 
-@app.route('/gasto')
-def gastos():
-    return render_template('Gastos.html')
+@app.route('/gasto', methods=('GET', 'POST'))
+def gasto():
+    form = forms.GastoForm()
+    if form.validate_on_submit():
+        models.Gasto.create(user=g.user._get_current_object(),
+                            name=form.name.data.strip(),
+                            content=form.content.data)
+        flash('Gasto añadido', 'success')
+        return redirect(url_for('home'))
+    return render_template('gasto.html', form=form)
 
 
 @app.route('/documento')
@@ -103,6 +110,31 @@ def documentos():
 @app.route('/')
 def index():
     return redirect(url_for('login'))
+
+
+@app.route('/stream')
+def stream():
+    ingresos = models.Ingreso.select().limit(100)
+    gastos = models.Gasto.select().limit(100)
+    return render_template('stream.html', ingresos=ingresos, gastos=gastos)
+
+
+@app.route('/resumen')
+@app.route('/resumen/<username>')
+def resumen(username=None):
+    template = 'stream.html'
+    if username and username != current_user.username:
+        user =  models.User.select().where(models.User.username**username).get()
+        ingresos = user.ingresos.limit(100)
+        gastos = user.gastos.limit(100)
+    else:
+        ingresos = current_user.get_ingresos().limit(100)
+        gastos = current_user.get_gastos().limit(100)
+        user = current_user
+    if username:
+        template = 'user_stream.html'
+    return render_template(template, ingresos=ingresos, gastos=gastos, user=user)
+
 
 
 @app.route('/home')

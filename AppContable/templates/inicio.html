@@ -58,25 +58,18 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-size: 20px">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('login') }}">Inicio Sesión</a>
-                </li>
-                <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('register') }}">Registrarse</a>
-                </li>
+                <a class="nav-link" href="{{ url_for('resumen') }}">Resumen</a>
                 <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('ingreso') }}">Ingresos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/Gastos">Gastos</a>
+                <a class="nav-link" href="{{ url_for('gasto') }}">Gastos</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/Documentos">Documentos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/Configuración">Configuración</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/Salir">Salir</a>
+                <a class="nav-link" href="{{ url_for('logout') }}">Salir</a>
                 </li>
             </ul>
         </div>

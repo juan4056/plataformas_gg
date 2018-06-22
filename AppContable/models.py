@@ -21,6 +21,12 @@ class User(UserMixin, Model):
     def get_ingresos(self):
         return Ingreso.select().where(Ingreso.user == self)
 
+    def get_gastos(self):
+        return Gasto.select().where(Gasto.user == self)
+
+    def get_stream(self):
+        return Ingreso.select().where(Ingreso.user == self)
+
 
     @classmethod
     def create_user(cls, username, email, password):
@@ -47,7 +53,22 @@ class Ingreso(Model):
         database = DATABASE
         order_by = ('-joined_at',)
 
+
+class Gasto(Model):
+    user = ForeignKeyField(
+        User,
+        related_name='gastos',
+    )
+    timestamp = DateTimeField(default=datetime.datetime.now)
+    name = CharField(max_length=30)
+    content = DecimalField(decimal_places=2)
+
+    class Meta:
+        database = DATABASE
+        order_by = ('joined_at',)
+
+
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Ingreso], safe=True)
+    DATABASE.create_tables([User, Ingreso, Gasto], safe=True)
     DATABASE.close()

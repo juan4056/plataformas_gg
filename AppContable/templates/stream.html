@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Ingresos</h1>
+{% for ingreso in ingresos %}
+    <article>
+        <h2>
+            <a href="{{ url_for('stream', username=ingreso.user.username) }}">{{ingreso.user.username}}</a>
+        </h2>
+        <i class="clock"></i><time data-time="{{ingreso.timestamp.timestamp()}}" class="distime" datetime="{{ ingreso.timestamp.strftime('%Y-%m-%d H:%M:%S') }}">{{ ingreso.timestamp.strftime('%Y-%m-%d H:%M:%S') }}</time>
+        <a href="#" class="view">Ver</a>
+        <div class="ingreso">
+            {{ ingreso.name }} = {{ ingreso. content }}
+        </div>
+    </article>
+{% endfor %}
+<h1>Gastos</h1>
+{% for gasto in gastos %}
+    <article>
+        <h2>
+            <a href="{{ url_for('stream', username=gasto.user.username) }}">{{gasto.user.username}}</a>
+        </h2>
+        <i class="clock"></i><time data-time="{{gasto.timestamp.timestamp()}}" class="distime" datetime="{{ gasto.timestamp.strftime('%Y-%m-%d H:%M:%S') }}">{{ gasto.timestamp.strftime('%Y-%m-%d H:%M:%S') }}</time>
+        <a href="#" class="view">Ver</a>
+        <div class="gasto">
+            {{ gasto.name }} = {{ gasto. content }}
+        </div>
+    </article>
+{% endfor %}
+
+{% endblock %}
