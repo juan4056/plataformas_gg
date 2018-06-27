@@ -2,7 +2,6 @@ from flask import Flask, g, render_template, flash, url_for, redirect, abort, Re
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 import json
-from database import connector
 import models
 import forms
 
@@ -142,14 +141,7 @@ def resumen(username=None):
         template = 'user_stream.html'
     return render_template(template, ingresos=ingresos, gastos=gastos, user=user)
 
-@app.route('/datos')
-def datos():
-    data= [
-    { "gasto": "Comida", "cantidad": 131},
-    { "gasto": "Movilidad", "cantidad": 324},
-    { "gasto": "Otros", "cantidad": 410}
-    ]
-    return Response(json.dumps(data, cls=connector.AlchemyEncoder), mimetype='application/json')
+
 
 @app.route('/home')
 @login_required
