@@ -1,9 +1,13 @@
-from flask import Flask, g, render_template, flash, url_for, redirect, request
+from flask import Flask, g, render_template, flash, url_for, redirect, abort, Response
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
-
+import json
+from database import connector
 import models
 import forms
+
+
+
 
 DEBUG = True
 PORT = 8000
@@ -79,39 +83,35 @@ def logout():
 
 
 @app.route('/ingreso', methods=('GET', 'POST'))
+@login_required
 def ingreso():
+    ingresos= current_user.get_ingresos().limit(100)
     form = forms.IngresoForm()
     if form.validate_on_submit():
         models.Ingreso.create(user=g.user._get_current_object(),
                               name=form.name.data.strip(),
                               content=form.content.data)
-        flash('Ingreso añadido', 'success')
-        return redirect(url_for('home'))
-    return render_template('ingreso.html', form=form)
+        #flash('Ingreso añadido', 'success')
+    return render_template('ingreso.html', form=form, ingresos=ingresos, page= "Ingresos")
 
 
 @app.route('/gasto', methods=('GET', 'POST'))
+@login_required
 def gasto():
+    gastos = current_user.get_gastos().limit(100)
     form = forms.GastoForm()
     if form.validate_on_submit():
         models.Gasto.create(user=g.user._get_current_object(),
                             name=form.name.data.strip(),
                             content=form.content.data)
-        flash('Gasto añadido', 'success')
-        return redirect(url_for('home'))
-    return render_template('gasto.html', form=form)
+        #flash('Gasto añadido', 'success')
+    return render_template('gasto.html', form=form, gastos=gastos, page="Gastos")
 
 
 @app.route('/documento')
-def documento():
-    return render_template('documento.html')
-
-
-@app.route('/upload', methods=['POST'])
-def upload():
-    file = request.files['inputFile']
-
-    return file.filename
+@login_required
+def documentos():
+    return render_template('Documentos.html')
 
 
 @app.route('/')
@@ -142,12 +142,19 @@ def resumen(username=None):
         template = 'user_stream.html'
     return render_template(template, ingresos=ingresos, gastos=gastos, user=user)
 
-
+@app.route('/datos')
+def datos():
+    data= [
+    { "gasto": "Comida", "cantidad": 131},
+    { "gasto": "Movilidad", "cantidad": 324},
+    { "gasto": "Otros", "cantidad": 410}
+    ]
+    return Response(json.dumps(data, cls=connector.AlchemyEncoder), mimetype='application/json')
 
 @app.route('/home')
 @login_required
 def home():
-    return render_template('inicio.html')
+    return render_template('home.html', page="Inicio")
 
 
 if __name__ == '__main__':
@@ -157,4 +164,4 @@ if __name__ == '__main__':
         email='herless.alvarado@utec.edu.pe',
         password='123qwe',
     )
-    app.run(debug=DEBUG, host=HOST, port=PORT)
+    app.run(debug=DEBUG)

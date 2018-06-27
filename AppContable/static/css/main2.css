@@ -2,6 +2,7 @@
 body, input, button, textarea {
   font-family: 'Varela Round', Helvetica Neue, Helvetica, Arial, serif;
 }
+
 body {
   font-size: 1em;
   color: #107dac;
@@ -9,6 +10,7 @@ body {
   background: #005073;
   position: relative;
 }
+
 a {
   text-decoration: none;
   color: #005073;

@@ -1,36 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{% block title %}App Contable{% endblock %}</title>
+        <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-    <title>Hello</title>
-
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery-3.1.0.min.js"%3E%3C/script%3E'))</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/event.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/supplemental.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/unresolved.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/message.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/number.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/date.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.spa.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.common.css" />
-    <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.1.3/css/dx.light.css" />
-    <script src="https://cdn3.devexpress.com/jslib/18.1.3/js/dx.all.js"></script>
-    <link rel="stylesheet" type ="text/css" href ="styles.css" />
-    <script type="text/javascript" src="grafico.js"></script>
-
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 
 </head>
 <body>
@@ -47,8 +29,9 @@
 
     <nav class="navbar navbar-dark bg-dark" >
         <a class="navbar-brand" style="font-size: 30px" href="#">
-            <img src="https://image.flaticon.com/icons/png/512/64/64096.png" width="80" height="80"/>
-            <b>Inicio</b>
+
+            <img src={{"static/img/"+page+".png"}} width="80" height="80"/>
+            <b>{{page}}</b>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
                 aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,8 +40,8 @@
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-size: 20px">
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('resumen') }}">Resumen</a>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Inicio</a>
                 <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('ingreso') }}">Ingresos</a>
                 </li>
@@ -66,7 +49,7 @@
                 <a class="nav-link" href="{{ url_for('gasto') }}">Gastos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('documento') }}">Documentos</a>
+                <a class="nav-link" href="/Documentos">Documentos</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Salir</a>
@@ -74,14 +57,16 @@
             </ul>
         </div>
     </nav>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div id="chartContainer" style="width: 1000px; height: 800px;"></div>
-        </div>
-    </div>
+    <div class="row">
 
+          <div class="main" style="width: 100%; height: 500px;">
+
+
+            {% block content %}{% endblock %}
+
+          </div>
+
+        </div>
+    <br>
 </body>
 </html>

@@ -24,6 +24,9 @@ class User(UserMixin, Model):
     def get_gastos(self):
         return Gasto.select().where(Gasto.user == self)
 
+    def get_stream(self):
+        return Ingreso.select().where(Ingreso.user == self)
+
 
     @classmethod
     def create_user(cls, username, email, password):
@@ -65,20 +68,7 @@ class Gasto(Model):
         order_by = ('joined_at',)
 
 
-class FileContents(Model):
-    user = ForeignKeyField(
-        User,
-        related_name='files',
-    )
-    name = CharField(max_length=120)
-    data = BlobField()
-
-    class Meta:
-        database = DATABASE
-        order_by = ('joined_at',)
-
-
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Ingreso, Gasto, FileContents], safe=True)
+    DATABASE.create_tables([User, Ingreso, Gasto], safe=True)
     DATABASE.close()
