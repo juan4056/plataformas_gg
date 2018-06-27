@@ -2,6 +2,7 @@ from flask import Flask, g, render_template, flash, url_for, redirect, abort, Re
 from flask_bcrypt import check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 import json
+from database import connector
 import models
 import forms
 
@@ -125,28 +126,67 @@ def stream():
     return render_template('stream.html', ingresos=ingresos, gastos=gastos)
 
 
-@app.route('/resumen')
-@app.route('/resumen/<username>')
-def resumen(username=None):
-    template = 'stream.html'
-    if username and username != current_user.username:
-        user =  models.User.select().where(models.User.username**username).get()
-        ingresos = user.ingresos.limit(100)
-        gastos = user.gastos.limit(100)
-    else:
-        ingresos = current_user.get_ingresos().limit(100)
-        gastos = current_user.get_gastos().limit(100)
-        user = current_user
-    if username:
-        template = 'user_stream.html'
-    return render_template(template, ingresos=ingresos, gastos=gastos, user=user)
+#@app.route('/resumen')
+#@app.route('/resumen/<username>')
+#def resumen(username=None):
+    #template = 'stream.html'
+    #if username and username != current_user.username:
+       # user =  models.User.select().where(models.User.username**username).get()
+      #  ingresos = user.ingresos.limit(100)
+     #   gastos = user.gastos.limit(100)
+    #else:
+     #   ingresos = current_user.get_ingresos().limit(100)
+    #    gastos = current_user.get_gastos().limit(100)
+   #     user = current_user
+  #  if username:
+ #       template = 'user_stream.html'
+#    return render_template(template, ingresos=ingresos, gastos=gastos, user=user)
 
-
+@app.route('/datos')
+def datos():
+    data=[]
+    data_before={}
+    gastos = current_user.get_gastos().limit(100)
+    ingreso=current_user.get_ingresos().limit(100)
+    ingreso_total=0
+    gas_total=0
+    for ing in ingreso:
+        ingreso_total=ingreso_total+int(ing.content)
+    for gas in gastos:
+        if  gas.name in data_before:
+            data_before[gas.name]=data_before[gas.name]+int(gas.content)
+        else:
+            data_before[gas.name]=int(gas.content)
+        gas_total=gas_total+int(gas.content)
+    for key in data_before:
+        data.append({"gasto":key, "cantidad":data_before[key]})
+    if ingreso_total>gas_total:
+        data.append({"gasto":"Caja","cantidad":(ingreso_total-gas_total)})
+    return Response(json.dumps(data, cls=connector.AlchemyEncoder), mimetype='application/json')
 
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html', page="Inicio")
+    gastos = current_user.get_gastos().limit(100)
+    ingreso = current_user.get_ingresos().limit(100)
+    ingreso_total = 0
+    gas_total = 0
+    case=0
+    for ing in ingreso:
+        ingreso_total = ingreso_total + int(ing.content)
+    for gas in gastos:
+        gas_total = gas_total + int(gas.content)
+    if ingreso_total > gas_total:
+        case=1
+    elif gas_total>ingreso_total:
+        case=2
+    elif gas_total==ingreso_total:
+        case=3
+    print(ingreso_total)
+    print(gas_total)
+    print(case)
+
+    return render_template('home.html', page="Inicio", case=case)
 
 
 if __name__ == '__main__':

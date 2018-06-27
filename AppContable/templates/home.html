@@ -2,16 +2,25 @@
 {% from 'macros.html' import render_field %}
 
 {% block content %}
+
+
+
 <div class="container">
     <div class="row">
-        <div id="chartContainer" style="width: 100%; height: 100%; dataSource: [
-    { gasto: 'Comida', cantidad: 131},
-    { gasto: 'Servicios Básicos', cantidad: 513},
-    { gasto: 'Otros', cantidad: 410}
-    ];"></div>
+        <div id="chartContainer" style="width: 100%; height: 100%;"></div>
     </div>
 </div>
 
+<br>
+<center>
+{% if case == 1 %}
+<b style="font-size: 30px;">Tus ingresos son mayores a tus gastos</b>
+{% elif case == 2 %}
+<b style="font-size: 30px;">Tus gastos han sobrepasado tus ingresos</b>
+{% elif case == 3 %}
+<b style="font-size: 30px;">No te queda dinero</b>
+{% endif %}
+</center>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery-3.1.0.min.js"%3E%3C/script%3E'))</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
@@ -24,5 +33,43 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/date.min.js"></script>
 <script src="https://cdn3.devexpress.com/jslib/18.1.3/js/dx.all.js"></script>
-<script src="/static/js/grafico.js"></script>
+<script>
+    $(function(){
+    var dataSource = "{{url_for('datos')}}";
+
+
+    $("#chartContainer").dxPieChart({
+        dataSource: dataSource,
+        palette: "bright",
+        series:{
+            argumentField: "gasto",
+            valueField: "cantidad",
+            innerRadius: 0.3,
+            label: {
+                visible: true,
+                connector:{visible:true},
+                customizeText: function(point){
+                    return point.percentText;
+                }
+            }
+        },
+        tooltip: {
+            enabled:true,
+            percentPrecision: 2,
+            customizeTooltip: function (arg) {
+                var percentText = Globalize.formatNumber(arg.percent, {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                return {
+                    text: " S/. " + arg.valueText + " - " + percentText
+                };
+            }
+        },
+
+    });
+});
+</script>
 {% endblock %}
